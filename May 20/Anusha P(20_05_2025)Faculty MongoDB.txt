@@ -1,0 +1,44 @@
+ Exercise: Faculty Database CRUD Practice
+🔹 Use Case: You are managing faculty information for a university.
+📋 Tasks (Run each step in mongosh)
+
+1️⃣ Switch to a new database called facultydb
+
+use facultydb
+
+2️⃣ Create a collection named professors and insert the following 3 professors:
+A professor teaching "Mathematics", with 10 years of experience, and is currently active.
+A professor teaching "Physics", with 5 years of experience, and is currently inactive.
+A professor teaching "Chemistry", with 8 years of experience, and is currently active.
+Each document should contain:
+name (string)
+subject (string)
+experience (number, in years)
+active (boolean)
+
+db.professors.insertMany([
+{'name':'Immanuel','subject':'Mathematics','experience':10,'active':true},
+{'name':'Sridhar','subject':'Physics','experience':5,'active':false},
+{'name':'Pandian','subject':'Chemistry','experience':8,'active':false}])
+
+3️⃣ Find all professors in the professors collection
+
+ db.professors.find()
+
+4️⃣ Find only the professors who are active
+
+db.professors.find({active:true})
+
+5️⃣ Update the experience of the "Physics" professor to 6 years
+
+ db.professors.updateOne(
+{subject:"Physics"},{$set:{experience:6}})
+
+6️⃣ Mark the "Physics" professor as active
+
+db.professors.updateOne(
+{subject:'Physics'},{$set:{active:true}})
+
+7️⃣ Delete the professor who teaches "Chemistry"
+
+ db.professors.deleteOne({ subject: 'Chemistry' })
