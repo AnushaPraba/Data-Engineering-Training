@@ -1,3 +1,4 @@
+use hexa;
 -- Table Schema: Employee Attendance Table
 -- Table Creation:
 create table employeeattendance (attendance_id int auto_increment primary key,employee_name varchar(50),department varchar(50),date date,status varchar(20),hours_worked int);
