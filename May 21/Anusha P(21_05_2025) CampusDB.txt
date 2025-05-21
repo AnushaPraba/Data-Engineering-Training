@@ -4,7 +4,6 @@ Collection: enrollments
 
 Tasks:
 1.Use a new database called campusdb
-
 use campusdb
 
 
@@ -54,46 +53,38 @@ feesPaid: false
 
 
 3.Display all student records
-
 db.enrollments.find()
 
 
 4.Find all students enrolled in "Python"
-
 db.enrollments.find({courses :{$in : ['Python']}})
 
 
 5.Find students from Delhi who have not paid fees
-
 db.enrollments.find({'address.city':'Delhi',feesPaid:false})
 
 
 6.Add a new course "AI Fundamentals" to a specific student's courses array
-
 db.enrollments.updateOne({studentId:101},
 {$push: {courses:'AI Fundamentals'}})
 
 
 7.Update the city of a specific student to "Mumbai"
-
 db.enrollments.updateOne({studentId:104},
 {$set:{address:{city:'Mumbai',state:'Maharasthra'}}})
 
 
 8.Set feesPaid to true for all students from "Delhi"
-
-db.enrollments.updateMany({'address.city':'Delhi'}},
+db.enrollments.updateMany({'address.city':'Delhi'},
 {$set:{feesPaid:true}})
 
 
 9.Remove "Java" course from any student who has it
-
 db.enrollments.updateMany({courses:'Java'},
 {$pull:{courses:'Java'}})
 
 
 10.Delete all students who have no courses enrolled (i.e., courses: [] )
-
 db.enrollments.deleteMany({courses:[]})
 
 
