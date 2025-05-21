@@ -1,0 +1,36 @@
+Bug Tracker System:
+
+Database: bugtracker 
+Collection: bugs
+Tasks:
+
+1.Create a new database called bugtracker
+use bugtracker
+
+
+2.Insert 3 bug reports into a bugs collection. Each document should include:
+. title (string)
+. reportedBy (string)
+. status (either "open", "closed", "in progress" )
+. priority (string - "low", "medium", "high" )
+. createdAt (date)
+
+db.createCollection('bugs')
+
+db.bugs.insertMany([
+{'title':'User unable to reset password', reportedBy:'Anusha Prabakaran',status:'open',priority:'high',createdAt: new Date()},
+{'title':'Error 404 while submitting the form',reportedBy:'Sanjeevini',status:'closed',priority:'medium',createdAt: new Date()},
+{'title':'Dark mode not applied for special character',reportedBy:'Test User',status:'in progress',priority:'low',createdAt :new Date()}])
+
+
+3.Query all bugs with status: "open" and priority: "high"
+db.bugs.find({status:'open',priority:'high'})
+
+
+4.Update the status of a specific bug to "closed"
+db.bugs.updateOne({title:'Dark mode not applied for special character'},
+{$set:{status:'closed'}})
+
+
+5. Delete the bug that was reported by "Test User"
+db.bugs.deleteOne({reportedBy:'Test User'})
