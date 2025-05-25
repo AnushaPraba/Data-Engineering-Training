@@ -1,0 +1,166 @@
+MongoDB Exercise Set #2: Project & Task Tracker
+Database:taskmanager
+Collections: projects , tasks , users
+
+
+
+Section 1: Basic Document Modeling & Insertion
+
+1.Create a database called taskmanager
+use taskmanager
+
+2.Insert 3 users into a users collection. Each should have:
+name (string)
+email (string)
+role (either "admin" , "manager" , or "developer" )
+active (boolean)
+db.createCollection('users')
+
+db.users.insertMany([
+{name:'Kavin',
+email:'kavin57@gmail.com',
+role:'developer',
+active:true},
+{name:'Akshay Dev',
+email:'akshay.official@gmail.com',
+role:'admin',
+active:false},
+{name:'Yogesh ',
+email:'yokesh.work@gmail.com',
+role:'manager',
+active:true}])
+
+3.Insert 2 projects into a projects collection:
+title , description , startDate , status (e.g. "active" , "completed" )
+Embed a createdBy sub-document containing the user’s _id , name
+
+db.createCollection('projects')
+
+db.projects.insertMany([
+{title:'Transportion WebSite',
+description:'To develop a website for the Sai Transportation Organisation',
+startDate:new Date('2025-02-06'),
+status:'completed',
+createdBy:{_id:ObjectId('6832af5d7f989db9bf6c4bd0'),name:'Kavin'}
+},
+{title:'Student Record System',
+description:'To develop a portal to manage student academic details',
+startDate:new Date('2025-04-12'),
+status:'active',
+createdBy:{_id:ObjectId('6832af5d7f989db9bf6c4bd2'),name:'Yogesh'}
+}])
+
+4.Insert 5 tasks into a tasks collection:
+Fields: title , assignedTo (user _id ), projectId , priority , dueDate ,status.
+
+db.createCollection('tasks')
+
+db.tasks.insertMany([
+{title:'Final Deployment to server',
+assignedTo:ObjectId('6832af5d7f989db9bf6c4bd0'),
+projectId:ObjectId('6832afe77f989db9bf6c4bd3'),
+priority:'High',
+dueDate:new Date('2025-03-01'),
+status:'completed'},
+{title:'Prepare final documentation',
+assignedTo:ObjectId('6832af5d7f989db9bf6c4bd1'),
+projectId:ObjectId('6832afe77f989db9bf6c4bd3'),
+priority:'Medium',
+dueDate:new Date('2025-03-20'),
+status:'completed'},
+{title:'Setup DB',
+assignedTo:ObjectId('6832af5d7f989db9bf6c4bd2'),
+projectId:ObjectId('6832afe77f989db9bf6c4bd4'),
+priority:'High',
+dueDate:new Date('2025-05-03'),
+status:'in progress'},
+{title:'Deveop login module ',
+assignedTo:ObjectId('6832af5d7f989db9bf6c4bd0'),
+projectId:ObjectId('6832afe77f989db9bf6c4bd4'),
+priority:'High',
+dueDate:new Date('2025-06-01'),
+status:'not started'},
+{title:'Design UI for student dashboard',
+assignedTo:ObjectId('6832af5d7f989db9bf6c4bd0'),
+projectId:ObjectId('6832afe77f989db9bf6c4bd4'),
+priority:'Medium',
+dueDate:new Date('2025-06-15'),
+status:'in progress'}])
+
+-------------------------------------------------------------------------------------------
+
+Section 2: Filtering & Querying
+
+5.Find all tasks with priority "high" that are not completed.
+db.tasks.find({priority:'High',status:{$ne:'completed'}})
+
+6.Query all active users with role "developer".
+db.users.find({active:true,role:'developer'})
+
+7.Find all tasks assigned to a specific user (by ObjectId ).
+db.tasks.find({assignedTo:ObjectId('6832af5d7f989db9bf6c4bd0')})
+
+8.Find all projects started in the last 30 days.
+const thirtyDaysAgo= new Date()
+thirtyDaysAgo.setDate(thirtyDaysAgo.getDate()-30)
+db.projects.find({startDate: { $gte: thirtyDaysAgo}})
+
+-------------------------------------------------------------------------------------------
+
+Section 3: Update Operations
+
+9.Change the status of one task to "completed".
+db.tasks.updateOne({title:'Setup DB'},{$set:{status:'completed'}})
+
+10.Add a new role field called "teamLead" to one of the users.
+db.users.update({name:'Akshay Dev'},{$set:{role:'teamLead'}})
+
+11.Add a new tag array to a task: ["urgent", "frontend"].
+db.tasks.updateOne({title:'Design UI for student dashboard'},{$set:{tags:['urgent','frontend']}})
+
+-------------------------------------------------------------------------------------------
+
+Section 4: Array and Subdocument Operations
+
+12.Add a new tag "UI" to the task’s tags array using $addToSet.
+db.tasks.updateOne({title:'Design UI for student dashboard'},{$addToSet:{tags:'UI'}})
+
+13.Remove "frontend" from a task’s tag list.
+db.tasks.updateOne({title:'Design UI for student dashboard'},{$pull:{tags:'frontend'}})
+
+14.Use $inc to increment a project ’s progress field by 10.
+db.projects.updateOne({title:'Design UI for student dashboard'},{$inc:{progress:10}})
+
+-------------------------------------------------------------------------------------------
+
+Section 5: Aggregation & Lookup
+
+15.Use $lookup to join tasks with users and show task title + assignee name.
+db.tasks.aggregate([
+{$lookup:{
+from:'users',
+localField:'assignedTo',
+foreignField:'_id',
+as:'assigneeDetails'}},
+{$project:{_id:0,title:1,'assigneeDetails.name':1}}])
+
+16.Use $lookup to join tasks with projects , and filter tasks where project status = active.
+db.tasks.aggregate([
+{$lookup:{
+from:'projects',
+localField:'projectId',
+foreignField:'_id',
+as:'projectDetails'}},
+{$match:{'projectDetails.status':'active'}}])
+
+17.Use $group to get count of tasks per status.
+db.tasks.aggregate([
+{$group:{_id:'$status',count:{$sum:1}}}])
+
+18.Use $match , $sort , and $limit to get top 3 soonest due tasks.
+db.tasks.aggregate([
+{$match:{status:{$ne:'completed'}}},
+{$sort:{dueDate:1}},
+{$limit:3}])
+
+-------------------------------------------------------------------------------------------
