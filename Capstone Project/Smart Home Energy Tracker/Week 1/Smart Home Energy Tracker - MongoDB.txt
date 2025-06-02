@@ -1,0 +1,22 @@
+use smart_home;
+
+# Create collection sensor_logs
+db.createCollection('sensor_logs');
+
+#Inserting documents to collections
+db.sensor_logs.insertMany([
+  {
+    device_id: 1,
+    timestamp: ISODate("2025-06-01T14:30:00Z"),
+    sensor_data: { voltage: 220, current: 0.7, power: 154 }
+  },
+  {
+    device_id: 2,
+    timestamp: ISODate("2025-06-01T14:35:00Z"),
+    sensor_data: { voltage: 230, current: 0.5, power: 115 }
+  }
+]);
+
+# Indexes for fast lookups
+db.sensor_logs.createIndex({ device_id: 1 });
+db.sensor_logs.createIndex({ timestamp: 1 });

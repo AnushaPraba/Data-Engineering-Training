@@ -1,0 +1,48 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# PyCharm specific
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# CSV output (optional: keep raw input CSVs, ignore outputs)
+# comment out next line if you want to keep all CSVs tracked
+# *.csv
+
+# Logs
+*.log
+
+# Cache / Jupyter
+.ipynb_checkpoints
+.cache/
+
+# Environment / build / dist
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Unit test & coverage
+htmlcov/
+coverage.*
+.tox/
+.pytest_cache/
+nosetests.xml
+test-results.xml
+junit-*.xml
+
+# MySQL dump or credential files (optional)
+*.sql
+*.db
+*.bak
+*.cnf
