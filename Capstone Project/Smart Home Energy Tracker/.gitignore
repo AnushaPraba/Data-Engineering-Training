@@ -42,7 +42,6 @@ test-results.xml
 junit-*.xml
 
 # MySQL dump or credential files (optional)
-*.sql
 *.db
 *.bak
 *.cnf
