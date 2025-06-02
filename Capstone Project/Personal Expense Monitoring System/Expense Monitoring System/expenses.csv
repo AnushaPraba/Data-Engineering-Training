@@ -1,0 +1,5 @@
+"expense_id","user_id","category_id","amount","expense_date","description"
+2,1,4,850.0,"2025-05-03","Dinner at Saravana Bhavan"
+3,2,3,1000.0,"2025-05-02","Uber ride to airport"
+4,2,5,450.0,"2025-05-04","Doctor visit and medicine"
+5,2,90,3000.0,"2025-05-05","Monthly SIP in Axis Mutual Fund"

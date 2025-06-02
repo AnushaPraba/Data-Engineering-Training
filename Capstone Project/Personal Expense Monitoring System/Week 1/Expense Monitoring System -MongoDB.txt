@@ -1,0 +1,33 @@
+use ExpenseDB
+
+# Creating receipts collection
+db.createColection('receipts');
+
+# Inserting documents to receipts
+db.receipts.insertMany([
+  {
+    user_id: 1,
+    expense_id: 2,
+    note: "Dinner at Saravana Bhavan",
+    scanned_receipt: {
+      filename: "receipt_saravana_20250503.jpg",
+      url: "https://example.com/receipts/saravana.jpg"
+    },
+    timestamp: new Date("2025-05-03")
+  },
+  {
+    user_id: 2,
+    expense_id: 3,
+    note: "Uber ride to airport",
+    scanned_receipt: {
+      filename: "receipt_uber_20250502.jpg",
+      url: "https://example.com/receipts/uber.jpg"
+    },
+    timestamp: new Date("2025-05-02")
+  }
+])
+
+# Creating indexes
+db.receipts.createIndex({ user_id: 1 })
+db.receipts.createIndex({ expense_id: 1 })
+db.receipts.createIndex({ user_id: 1, timestamp: -1 })
