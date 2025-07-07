@@ -1,0 +1,6 @@
+user_id,category,amount,expense_date,description
+1,Utilities & Bills,1200.0,2025-06-01,BSNL broadband bill
+1,Food,850.0,2025-05-03,Dinner at Saravana Bhavan
+2,Transport,1000.0,2025-05-02,Uber ride to airport
+2,Healthcare,450.0,2025-05-04,Doctor visit and medicine
+2,Savings & Investments,3000.0,2025-05-05,Monthly SIP in Axis Mutual Fund

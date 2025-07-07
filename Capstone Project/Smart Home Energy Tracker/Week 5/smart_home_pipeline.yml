@@ -1,0 +1,30 @@
+# Trigger this pipeline every Monday at 5 AM
+trigger:
+  schedule:
+    - cron: "0 5 * * 1"  # Weekly on Monday
+      displayName: Weekly Energy Report
+      branches:
+        include:
+          - main
+
+# Use the latest Ubuntu environment
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  # Set up Python environment
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+
+  # Install dependencies and run report script
+  - script: |
+      pip install pandas
+      python scripts/process_energy_weekly.py
+    displayName: "Run Weekly Energy Report"
+
+  # Publish generated reports to pipeline artifacts
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: 'reports/'
+      artifactName: 'WeeklyEnergyReport'

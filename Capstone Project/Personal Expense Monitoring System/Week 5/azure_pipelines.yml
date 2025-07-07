@@ -1,0 +1,31 @@
+trigger:
+  schedule:
+    - cron: "0 0 1 * *"  # runs monthly
+      displayName: Monthly Expense Analysis
+      branches:
+        include:
+          - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.10'
+
+- script: |
+    pip install pandas numpy
+    python scripts/expense_processing.py
+  displayName: 'Run Expense Analysis Script'
+
+- script: |
+    echo "Checking savings threshold..."
+    python scripts/check_savings_alert.py
+  displayName: 'Run Savings Alert'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'outputs/summary.csv'
+    ArtifactName: 'ExpenseSummaryReport'
+    publishLocation: 'Container'

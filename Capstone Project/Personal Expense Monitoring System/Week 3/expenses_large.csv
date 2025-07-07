@@ -1,0 +1,11 @@
+user_id,category,amount,expense_date,description
+1,Food,500,2025-01-10,Dinner at restaurant
+1,Food,600,2025-02-15,Lunch with friends
+1,Food,700,2025-03-12,Weekend snacks
+1,Food,2000,2025-04-05,Party at hotel
+1,Food,300,2025-05-09,Chai & Samosa
+2,Transport,800,2025-01-12,Metro card recharge
+2,Transport,900,2025-02-20,Uber ride
+2,Transport,850,2025-03-10,Taxi to office
+2,Transport,950,2025-04-18,Bus monthly pass
+2,Transport,4000,2025-05-25,Flight ticket
